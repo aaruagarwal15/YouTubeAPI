@@ -3,6 +3,7 @@ const DBConnection = require('../config/database');
 const Constants = require('../utils/constants');
 
 module.exports = {
+    // Function called for Search API
     search: async (string) => {
         return new Promise((resolve, reject) => {
             if(string == undefined || string == null) {
@@ -16,6 +17,7 @@ module.exports = {
                         } else {
                             var dbResult = await DBConnection.searchData(string);
                             
+                            // Setting (string, dbResult) in redis
                             redisClient.set(string, JSON.stringify(dbResult), 'EX', Constants.REDIS_TTL).then(res => {
                                 console.log(`Successfully set key: ${string} to Redis. Result: ${res}`)
                             }).catch(err => {

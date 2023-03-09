@@ -1,5 +1,6 @@
 module.exports =  {
+    // Function called at / route
     defaultPage: function() {
-        return "Hi, Welcome to YouTube Search App. ................To Search videos: localhost:5000/search/SEARCH_STRING ................To Get videos: localhost:5000/get/PAGE_NUMBER";
+        return "Hi, Welcome to YouTube Search App. ................To Search videos: IP_ADDREASS:6000/search/SEARCH_STRING ................To Get videos: IP_ADDREASS:6000/get/PAGE_NUMBER";
     }
 }

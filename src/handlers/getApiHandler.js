@@ -3,9 +3,10 @@ const DBConnection = require('../config/database');
 const Constants = require('../utils/constants');
 
 module.exports = {
+    // Fuction called for GET API
     getPage: async function(page) {
         return new Promise((resolve, reject) => {
-            var jumpValue = 0;
+            var jumpValue = 0;      // Offset value while reading data from DB
             if (page !== undefined) {
                 if (isNaN(page)) {
                     resolve('Only integers allowed for page numbers!');
@@ -23,6 +24,7 @@ module.exports = {
                     } else {
                         var dbResult = await DBConnection.fetchData(jumpValue, Constants.ENTRY_PER_PAGE);
                         
+                        // Setting (RedisKey, dbResult) in redis
                         redisClient.set(redisKey, JSON.stringify(dbResult), 'EX', Constants.REDIS_TTL).then(res => {
                             console.log(`GET Successfully set key: ${redisKey} to Redis. Result: ${res}`);
                         }).catch(err => {

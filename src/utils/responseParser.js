@@ -1,6 +1,7 @@
 const utf8 = require('utf8');
 
 module.exports =  {
+    // Google API response parser
     parseResponse: (data) => {
         const resultObject = []
         data.items.forEach(item => {
@@ -14,6 +15,6 @@ module.exports =  {
                 publishTime: item.snippet.publishTime
             })
         })
-      return resultObject
+      return resultObject;
     }
 }

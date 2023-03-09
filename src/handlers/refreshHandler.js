@@ -19,14 +19,21 @@ const queryParams = {
 }
 
 module.exports = {
+    
+    // Function called after every 30 seconds to fetch data from youtube and push to DB
     refreshDataHandler: function() {
+        
         googleApi.search.list(queryParams).then(response => {
+            // Parsed google API response to Response Parser
             const results = ResponseParser.parseResponse(JSON.parse(JSON.stringify(response.data)));
-            console.log(results);
+            
+            // Changing datetime format from 2023-03-04T12:12:000Z to 2023-03-04 12:12:000
             const videoArrayOfValues = results.map(obj => [obj.videoId, obj.title, obj.description, obj.thumbnail, obj.channelId, obj.channelTitle,
                 (obj.publishTime).replace('T',' ').replaceAll('Z','')]);
+
             DB.pushData(videoArrayOfValues);
         }).catch(error => {
+            // API Quota limit exceeded handling
             if (authKeys.length && error.message === Constants.QUOTA_EXCEEDED_ERROR_MSG) {
                 const newApiKey = authKeys.shift();
                 googleApi = new Googleapis.youtube_v3.Youtube({
