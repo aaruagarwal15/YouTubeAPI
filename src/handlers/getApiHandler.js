@@ -26,7 +26,7 @@ module.exports = {
                         var dbResult = await DBConnection.fetchData(jumpValue, Constants.ENTRY_PER_PAGE);
                         console.log(`GET mysql response for string: ${JSON.stringify(dbResult)}`);
                         
-                        redisClient.set(redisKey, JSON.stringify(dbResult), 'EX', 300).then(res => {
+                        redisClient.set(redisKey, JSON.stringify(dbResult), 'EX', Constants.REDIS_TTL).then(res => {
                             console.log(`GET Successfully set key: ${redisKey} to Redis. Result: ${res}`);
                         }).catch(err => {
                             console.error(`GET Error setting key: ${redisKey} to Redis. Error: ${err}`);

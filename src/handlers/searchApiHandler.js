@@ -1,5 +1,6 @@
 const redisClient = require('../config/redis');
 const DBConnection = require('../config/database');
+const Constants = require('../utils/constants');
 
 module.exports = {
     search: async (string) => {
@@ -14,14 +15,12 @@ module.exports = {
                     if (error) reject(error);
                     else {
                         if(response != null) {
-                            console.log("Printing response: ");
-                            console.log(response);
                             resolve(response);
                         } else {
                             var dbResult = await DBConnection.searchData(string);
                             console.log(`mysql response for string: ${JSON.stringify(dbResult)}`);
                             
-                            redisClient.set(string, JSON.stringify(dbResult), 'EX', 10).then(res => {
+                            redisClient.set(string, JSON.stringify(dbResult), 'EX', Constants.REDIS_TTL).then(res => {
                                 console.log(`Successfully set key: ${string} to Redis. Result: ${res}`)
                             }).catch(err => {
                                 console.error(`Error setting key: ${string} to Redis. Error: ${err}`)
