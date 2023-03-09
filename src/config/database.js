@@ -17,7 +17,8 @@ DBConnection.connect(function(err) {
 module.exports = {
     // Function to push data to DB after fetching after every 20 sec
     pushData: function(videos) {
-        let query = `INSERT INTO video(videoId, title, description, thumbnail, channelId, channelTitle, publishTime) VALUES ? `;
+        // Adding IGNORE in insert will ensure that any entry of existing videoId will be ignored
+        let query = `INSERT IGNORE INTO video(videoId, title, description, thumbnail, channelId, channelTitle, publishTime) VALUES ? `;
         DBConnection.query(query, [videos], function (err, result) {
             if (err) throw err;
         }); 
