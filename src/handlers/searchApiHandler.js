@@ -5,27 +5,23 @@ const Constants = require('../utils/constants');
 module.exports = {
     search: async (string) => {
         return new Promise((resolve, reject) => {
-            console.log("Inside search handler with string: " + string);
             if(string == undefined || string == null) {
-                console.log("Search string is null or undefined");
                 resolve("Search string is null or undefined");
             } else {
                 redisClient.get(string, async (error, response) => {
-                    console.log(response);
                     if (error) reject(error);
                     else {
                         if(response != null) {
-                            resolve(response);
+                            resolve('Data fetched successfully from Redis! ' + response);
                         } else {
                             var dbResult = await DBConnection.searchData(string);
-                            console.log(`mysql response for string: ${JSON.stringify(dbResult)}`);
                             
                             redisClient.set(string, JSON.stringify(dbResult), 'EX', Constants.REDIS_TTL).then(res => {
                                 console.log(`Successfully set key: ${string} to Redis. Result: ${res}`)
                             }).catch(err => {
                                 console.error(`Error setting key: ${string} to Redis. Error: ${err}`)
                             })
-                            resolve('Data fetched successfully!' + JSON.stringify(dbResult));
+                            resolve('Data fetched successfully from DB! ' + JSON.stringify(dbResult));
                         }
                     }
                 });

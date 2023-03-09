@@ -1,7 +1,6 @@
 FROM node:16
-WORKDIR /src/app
+WORKDIR /src/
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 8080
 CMD [ "node", "index.js" ]

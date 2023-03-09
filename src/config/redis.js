@@ -1,7 +1,7 @@
 const redis = require('ioredis');
 const constants = require('../utils/constants');
 
-const redisClient = new redis(constants.REDIS_PORT, constants.HOST, { enableAutoPipelining: true });
+const redisClient = new redis(process.env.REDIS_PORT, process.env.REDIS_HOST, { enableAutoPipelining: true });
 
 redisClient.on('connect', () => {
   console.log('Redis connection established');

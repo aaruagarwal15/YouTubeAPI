@@ -1,8 +1,7 @@
 const app = require('./src/config/app');
-const constants = require('./src/utils/constants')
 
-const server = app.listen(constants.PORT, constants.HOST, () => {
-  console.log(`Server live at http://${constants.HOST}:${constants.PORT}`);
+const server = app.listen(process.env.PORT, process.env.HOST, () => {
+  console.log(`Server live at http://${process.env.HOST}:${process.env.PORT}`);
 })
 
 module.exports = server;

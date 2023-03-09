@@ -1,0 +1,43 @@
+version: "3"
+services:
+  app:
+    build: ./
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    ports:
+      - "8000:6000"
+    environment:
+      - HOST=127.0.0.1
+      - PORT=6000
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=1234
+      - DB_NAME=fampay
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+    depends_on:
+      - mysql
+      - redis
+    stdin_open: true      
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.32
+    environment:
+      MYSQL_ROOT_HOST: '%' 
+      MYSQL_DATABASE: fampay
+      MYSQL_ROOT_PASSWORD: 1234
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"       
+
+  redis:
+    container_name: redis
+    image: redis
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"

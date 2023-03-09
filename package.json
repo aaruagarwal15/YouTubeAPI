@@ -4,6 +4,7 @@
   "description": "To make an API to fetch latest videos sorted in reverse chronological order of their publishing date-time from YouTube for a given tag/search query in a paginated response.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +15,7 @@
     "google-auth-library": "^8.7.0",
     "googleapis": "^112.0.0",
     "ioredis": "^5.3.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "utf8": "^3.0.0"
   }
 }
